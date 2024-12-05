@@ -5,6 +5,7 @@
 
 # Maven specific files
 /target/
+/target/*
 
 # Logs
 *.log
