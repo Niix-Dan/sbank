@@ -1,0 +1,103 @@
+# Database Settings
+# If you don't know what is this, you can ask in our discord server to get help from community.
+# When you decide to change from sqlite to mysql or mysql to sqlite. You don't need to restart but for safety, you can restart the server after change.
+# If you are using sqlite you don't need to do anything here, just use it.
+database:
+  type: sqlite # mysql or sqlite
+  host: host_ip # no need for these 5 lines if you are using sqlite
+  port: 3306
+  name: sbank
+  username: database_username
+  password: database_password
+
+# Default bank name, when player first join to server they will have a bank account with this name
+default-bank-name: "My Bank"
+# Maximum bank name length
+bank-name-length: 12
+# Start money when they create a bank account
+start-money: 0
+
+# If you want to player lose their money after death with percentage you can set this to true
+# Even its true they will not lose money if they have permission "sbank.dontlosemoney"
+# Also they will not lose money if they have 0 money
+# Also they will not lose money if they killed by a Player (like maybe they are in a PVP arena)
+lose-money-after-death: true
+# Percentage of money that player will lose when they die 10 = 10%
+after-death-percentage: 10
+# Message that will be sent to player after they die
+after-death-message: "&6Wow you just lost &c%money%$ &6because of death. You should consider to deposit your money to bank."
+
+# All messages for bank and debt system. I know a bit messy, but you can change all messages in the plugin as you wish.
+# If you lose placeholders like %money% you can ask in our discord server to get help from community.
+messages:
+  prefix: "&6[&cSBank&6] &r"
+  no-permission: "&cYou don't have permission to do this."
+  plugin-reloaded: "&6Plugin has been reloaded successfully."
+  no-bank-account: "&cYou don't have a bank account yet. You can create one by rejoining the server."
+  setting-bank-name: "&6Bank name can only contain letters and numbers. No special characters allowed, and it must be at most &c12 characters long &6(including spaces). Please enter a new bank name."
+  bank-name-set: "&6Your bank name has been successfully set to &c%bankname%."
+  not-enough-money: "&cYou don't have enough money to complete this action."
+  deposit-success: "&6You've successfully deposited &c%money%$&6 into your bank account."
+  withdraw-success: "&6You've successfully withdrawn &c%money%$&6 from your bank account."
+  enter-amount: "&6Please enter the amount you wish to proceed with."
+  custom-amount-not-set: "&cThe session has been canceled."
+  bank-name-not-set: "&cYou exited the bank name setting session."
+  bank-name-invalid: "&6Bank name can only contain letters and numbers. Do not use special characters. (to close type 'close')"
+  loan-amount: "&6Please enter the amount you wish to loan. The maximum loan amount is &c%maxloan%$&6 and the minimum loan amount is &c%minloan%$. &oTo cancel, type cancel."
+  loan-agreement: "&6You will be charged &c%interest%$ interest for every &c%term% hours&6. Are you sure you want to loan &c%amount%$?"
+  loan-success: "&6You have successfully taken out a loan of &c%amount%$&6 from the bank. You will pay &c%interest%$ interest every &c%term% &6hours. Check your debt with the &c/debt&6 command."
+  loan-failed: "&cYou have canceled the loan process."
+  loan-paid: "&6You have successfully paid &c%amount%$ &6towards your loan debt."
+  loan-cancelled: "&6The loan process has been canceled."
+  loan-disabled: "&cThe loan feature is currently disabled."
+  loan-amount-error: "&cYou cannot loan more than &c%maxloan%$ or less than &c%minloan%$."
+  debt-deducted: "&6An amount of &c%money%$&6 has been deducted from your bank account to pay off your debt."
+  debt-cant-paid: "&cYour debt pay time has come and you don't have enough money to pay it. Your remaining debt has been increased by &c%money%$."
+  debt-payment-success: "&6You successfully paid &c%money%$&6 towards your debt."
+  debt-paid: "&6Your debt of &c%money%$&6 has been fully paid off. You are now debt-free and can take out another loan."
+  invalid-amount: "&cThe amount entered is invalid."
+  less-then-daily: "&cYou cannot pay less than the daily minimum of &c%daily%&6 for your debt."
+  loan-agree:
+    - "&c------------------- &fDebt Details &c---------------------"
+    - "&6You have taken a loan of &c%total_debt%$&6 from the bank. You will be required to pay &c%every_payment%$ every &c%payment_interval% hours."
+    - "&6You can check and pay your debt using the &c/sb debt&6 command."
+    - "&6Failure to pay on time will increase your remaining debt by &c%every_payment%$ &6every &c%payment_interval% &6hours."
+    - "&6We hope you make timely payments. Good luck!"
+    - "&cImportant Note: &6Money should be in your bank account to pay your debt when time comes."
+
+gui:
+  bank-home-title: "&6Bank Account"
+  deposit-page-title: "&6Deposit Money"
+  withdraw-page-title: "&6Withdraw Money"
+  loan-page-title: "&6Loan Money"
+  debt-page-title: "&6Debt Info"
+  agree-page-title: "&6Agreement"
+
+# Loan Settings
+# Loan term in days (7 days = 1 week). You can change this to 14 for 2 weeks, 30 for 1 month etc. This is for interest calculation.
+# Calculation will be like this: debt * interest / 100 * loan-term.
+# So if you have 500.000$ debt and 10% interest and 7 days loan-term you will pay 121.428$ interest for every day.
+# Total 850.000$ in 7 days.
+# Loan Permission: sbank.loan
+loan:
+  enabled: true # If you turn this false or true you need to restart the server to apply changes
+  max-loan: 1000000.0
+  min-loan: 1000.0
+  loan-interest: 10 # In percentage
+  loan-term: 7
+  debt-time: 12 # In hours debt will be deducted every 12 hours
+
+# Interest Settings
+# Interest Permission: sbank.interest
+interest:
+  enabled: true # If you turn this false or true you need to restart the server to apply changes. Also change gui.yml to remove interest information for good user experience.
+  interest-rate: 10 # In percentage if player online and interest setting is true they will get this percentage of their money every interest-time
+  interest-time: 12 # In hours interest will be calculated every 12 hours
+  last-interest-date: "2024-10-07 20:49:00" # Last interest info, DO NOT TOUCH, this will be change automatically
+  interest-message: "&6You got %interest%$ interest to your bank account."
+
+npc-bankers:
+  enabled: false
+  npc-id: '0'
+  command-message: "&6You can just access your bank with banker NPC"
+  bypass-permission: "sbank.banker"

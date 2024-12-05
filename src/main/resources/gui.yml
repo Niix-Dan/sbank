@@ -1,0 +1,87 @@
+gui:
+  deposit-button:
+    name: "&eDeposit"
+    material: "IRON_INGOT"
+    lore:
+      - "&7Click to deposit money"
+      - "&7into your bank account"
+  withdraw-button:
+    name: "&eWithdraw"
+    material: "GOLD_INGOT"
+    lore:
+      - "&7Click to withdraw money"
+      - "&7from your bank account"
+  # LOAN GUI SETTINGS
+  loan:
+    loan-gui:
+      name: "&7Loan Page"
+      material: "BOOK_AND_QUILL"
+      lore:
+          - "&7Click to open the loan page"
+    # This is for the player which has already a debt(loan)
+    details:
+      name: "&7Debt Details"
+      material: "BOOK"
+      lore:
+          - "&eDebt: &f%total_debt%"
+          - "&eRemaining: &f%remaining_debt%"
+          - "&ePayment: &f%every_payment%"
+          - "&eInterest Rate: &f%interest_rate%"
+          - "&eTime to next deduction: &f%time_to_next_deduction%"
+          - "&c&oMoney should be in your bank account!"
+    pay:
+      name: "&7Pay Debt"
+      material: "EMERALD"
+      lore:
+          - "&7Click to pay your debt"
+    # This is for the player which has not a debt yet :)
+    available-loan:
+      name: "&7New Loan Opportunity!"
+      material: "BOOK_AND_QUILL"
+      lore:
+        - "&7Maximum Loan: &f%max_loan%"
+        - "&7Minimum Loan: &f%min_loan%"
+        - "&7Interest Rate: &f%interest_rate%"
+        - "&7Loan Term: &f%term% &7(Total Debt/Term = Daily Payment)"
+        - "&7Pay Every: &f%payment_interval% hours"
+        - "&7Click to give us a number and"
+        - "&7get your new loan!"
+    agreement:
+      name: "&7Agreement"
+      material: "BOOK_AND_QUILL"
+      lore:
+          - "&7Total Debt: &f%total_debt%"
+          - "&7Payment: &f%every_payment%"
+          - "&7Interest Rate: &f%interest_rate%"
+          - "&7Debt Term: &f%term% &7(Total Debt/Term = Daily Payment)"
+          - "&7Payment Interval: &f%payment_interval% hours"
+    agree:
+      name: "&7Agree"
+      material: "EMERALD"
+      lore:
+          - "&7Click to get your loan!"
+    disagree:
+      name: "&7Disagree"
+      material: "REDSTONE"
+      lore:
+          - "&7Click to cancel the loan process!"
+  # BANK DETAILS BUTTON FOR EVERY PAGE
+  bank-details:
+    name: "&7Account Details"
+    material: "BOOK"
+    lore:
+      - "&eBalance: &f%balance%"
+      - "&eInterest Rate: &f%interest_rate%"
+      - "&eBank Name: &f%bank_name%"
+      - "&eTime to next interest: &f%time_to_next_interest%"
+  bank-set-name:
+    name: "&eSet Bank Name"
+    material: "NAME_TAG"
+    lore:
+      - "&7Click to set the new bank name"
+  # CLOSE BUTTON FOR EVERY PAGE
+  close-button:
+    name: "&cClose"
+    material: "BARRIER"
+    lore:
+      - "&7Click to close the inventory"
