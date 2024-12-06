@@ -86,8 +86,8 @@ public class PlayerBankChatListener implements Listener {
                     TextUtils.sendMessageWithPrefix(e.getPlayer(), SBank.getPlugin().getConfig().getString("messages.bank-name-invalid"));
                 }
             } else {
-                TextUtils.sendMessageWithPrefix(e.getPlayer(), "&cBank name can only be %max% characters long. " +
-                        "(include spaces)".replaceAll("%max%", String.valueOf(maxLength)));
+                TextUtils.sendMessageWithPrefix(e.getPlayer(), "&cBank name can only be %max% characters long. ".replaceAll("%max%", String.valueOf(maxLength)) +
+                        "(include spaces)");
             }
         } else {
             TextUtils.sendMessageWithPrefix(e.getPlayer(), SBank.getPlugin().getConfig().getString("messages.bank-name-not-set"));
@@ -98,7 +98,6 @@ public class PlayerBankChatListener implements Listener {
     private void handleDeposit(AsyncPlayerChatEvent e, double balance, String message) {
         String playerName = e.getPlayer().getName();
 
-        // Ondalıklı sayıları ve tam sayıları kontrol eden bir yöntem
         if (MiscUtils.isNumeric(message)) {
             double amount = Double.parseDouble(message);
             if (balance >= amount) {
