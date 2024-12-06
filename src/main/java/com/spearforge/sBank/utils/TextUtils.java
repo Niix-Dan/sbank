@@ -1,5 +1,7 @@
 package com.spearforge.sBank.utils;
 
+import org.bukkit.Bukkit;
+
 import com.spearforge.sBank.SBank;
 import com.spearforge.sBank.model.Bank;
 import com.spearforge.sBank.model.Debt;
@@ -38,7 +40,13 @@ public class TextUtils {
     public static List<String> replacePlaceholders(List<String> lore, @Nullable Bank bank, @Nullable Debt debt){
         String interest = "";
         if (SBank.getPlugin().getConfig().getBoolean("interest.enabled")){
-            interest = SBank.getPlugin().getConfig().getInt("interest.interest-rate") + "%";
+            double _interest = SBank.getPlugin().getConfig().getInt("interest.default-interest-rate", 
+                                                           SBank.getPlugin().getConfig().getInt("interest.interest-rate"));
+            interest = "" + _interest + "%";
+            if(bank != null) {
+                Player p = Bukkit.getPlayer(bank.getUsername());
+                interest = "" + MiscUtils.getInterest(p, _interest) + "%";
+            }
         }
 
         Map<String, String> replacements = new HashMap<>();

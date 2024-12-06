@@ -22,7 +22,7 @@ public abstract class DatabaseConnection {
 
     public abstract void loadDebtsFromDatabase() throws SQLException;
 
-    public abstract void applyInterest(double interest) throws SQLException;
+    public abstract void applyInterest(double _interest) throws SQLException;
 
     public abstract void setBankInDatabase(Bank bank) throws SQLException;
 

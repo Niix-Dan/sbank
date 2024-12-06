@@ -107,12 +107,13 @@ public class MySQLConnection extends DatabaseConnection{
     }
 
     @Override
-    public void applyInterest(double interest) {
+    public void applyInterest(double _interest) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (SBank.getBanks().get(player.getName()).getBalance() > 0){
                 if (player.hasPermission("sbank.interest")){
                     double balance = SBank.getBanks().get(player.getName()).getBalance();
 
+                    double interest = MiscUtils.getInterest(player, _interest);
                     double interestAmount = balance * (interest / 100);
                     SBank.getBanks().get(player.getName()).setBalance(balance + interestAmount);
                     TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("interest.interest-message").replaceAll("%interest%", String.valueOf(MiscUtils.formatBalance(interestAmount))));
