@@ -176,7 +176,8 @@ public final class SBank extends JavaPlugin {
     }
 
     public void startInterestScheduler() {
-        double interest = plugin.getConfig().getDouble("interest.interest-rate");
+        double interest = plugin.getConfig().getDouble("interest.default-interest-rate", 
+                                                      plugin.getConfig().getDouble("interest.interest-rate");
 
         new BukkitRunnable() {
             @Override
