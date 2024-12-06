@@ -10,7 +10,7 @@ import java.text.DecimalFormatSymbols;
 
 public class MiscUtils {
 
-    public static double getInterest(Player player) {
+    public static double getInterest(Player player, double _interest) {
         Pattern pattern = Pattern.compile("^sbank\\.interest\\.(\\d+)$"); // sbank.interest.%
 
         return player.getEffectivePermissions().stream()
@@ -20,7 +20,7 @@ public class MiscUtils {
                 .filter(Matcher::find)
                 .mapToInt(matcher -> Integer.parseInt(matcher.group(1)))
                 .max()
-                .orElse(0);
+                .orElse(_interest);
     }
 
     public static String formatBalance(double balance) {
