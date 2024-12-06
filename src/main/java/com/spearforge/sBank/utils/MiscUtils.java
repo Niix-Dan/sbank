@@ -5,23 +5,24 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 public class MiscUtils {
-
+    
     public static double getInterest(Player player, double _interest) {
-        Pattern pattern = Pattern.compile("^sbank\\.interest\\.(\\d+)$"); // sbank.interest.%
+        Pattern pattern = Pattern.compile("^sbank\\.interest\\.(\\d+)$"); // sbank.interest.<percent>
 
         return player.getEffectivePermissions().stream()
-                .map(PermissionAttachmentInfo::getPermission)
-                .filter(permission -> pattern.matcher(permission).matches())
-                .map(permission -> pattern.matcher(permission))
-                .filter(Matcher::find)
-                .mapToInt(matcher -> Integer.parseInt(matcher.group(1)))
-                .max()
-                .orElse(_interest);
+            .map(PermissionAttachmentInfo::getPermission)
+            .map(pattern::matcher)
+            .filter(Matcher::matches) 
+            .mapToInt(matcher -> Integer.parseInt(matcher.group(1)))
+            .max()
+            .orElse((int) _interest);
     }
+
 
     public static String formatBalance(double balance) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
