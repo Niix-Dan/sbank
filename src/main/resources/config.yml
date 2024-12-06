@@ -89,6 +89,7 @@ loan:
 
 # Interest Settings
 # Interest Permission: sbank.interest
+# Custom Interest Permission: sbank.interest.<percent>
 interest:
   enabled: true # If you turn this false or true you need to restart the server to apply changes. Also change gui.yml to remove interest information for good user experience.
   default-interest-rate: 10 # In percentage. If the player is online and the interest setting is enabled, they will receive this default percentage of their money at every interest-time, unless they have a sbank.interest.<percent> permission set.
