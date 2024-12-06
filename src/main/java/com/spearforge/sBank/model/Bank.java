@@ -18,6 +18,14 @@ public class Bank {
     private String bankname;
     private double balance;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUniqueId() {
+        return uuid;
+    }
+    
     public double getBalance() {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.GERMANY);
         dfs.setDecimalSeparator('.');
