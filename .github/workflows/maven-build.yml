@@ -27,6 +27,11 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+  artifact:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
     - name: Upload Artifact Build
       uses: actions/upload-artifact@v4
       with:
