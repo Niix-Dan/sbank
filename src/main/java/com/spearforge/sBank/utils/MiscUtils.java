@@ -1,13 +1,20 @@
 package com.spearforge.sBank.utils;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import com.spearforge.sBank.SBank;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import java.util.Optional;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MiscUtils {
     
@@ -31,7 +38,7 @@ public class MiscUtils {
 
         DecimalFormat df = new DecimalFormat("#,##0.00", symbols);
 
-        return df.format(balance);
+        return df.format(balance) + SBank.getPlugin().getConfig().getString("currency-symbol");
     }
 
 
@@ -58,5 +65,35 @@ public class MiscUtils {
         }
     }
 
+    public static ItemStack getCustomHead(String base64) {
+
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1);
+        if (base64 == null || base64.isEmpty()) {
+            return head; //
+        }
+
+        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        profile.getProperties().put("textures", new Property("textures", base64));
+
+        try {
+            Field profileField = headMeta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(headMeta, profile);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        head.setItemMeta(headMeta);
+        return head;
+    }
+
+    public static ItemStack getMaterialOrHead(String configPath){
+        try {
+            return new ItemStack(Material.valueOf(SBank.getGuiConfig().getString(configPath + ".material")));
+        } catch (IllegalArgumentException e) {
+            return getCustomHead(SBank.getGuiConfig().getString(configPath + ".material"));
+        }
+    }
 
 }

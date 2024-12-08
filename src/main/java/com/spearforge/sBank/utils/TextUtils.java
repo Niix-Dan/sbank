@@ -1,12 +1,11 @@
 package com.spearforge.sBank.utils;
 
-import org.bukkit.Bukkit;
-
 import com.spearforge.sBank.SBank;
 import com.spearforge.sBank.model.Bank;
 import com.spearforge.sBank.model.Debt;
 import com.spearforge.sBank.modules.DebtModule;
 import com.spearforge.sBank.modules.InterestModule;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -62,9 +61,9 @@ public class TextUtils {
                 replacements.put("%bank_name%", bank.getBankname());
                 replacements.put("%time_to_next_interest%", InterestModule.getTimeUntilNextInterest());
             } else if (debt != null){
-                replacements.put("%total_debt%", String.valueOf(MiscUtils.formatBalance(debt.getTotal())));
-                replacements.put("%remaining_debt%", String.valueOf(MiscUtils.formatBalance(debt.getRemaining())));
-                replacements.put("%every_payment%", String.valueOf(MiscUtils.formatBalance(debt.getDaily())));
+                replacements.put("%total_debt%", MiscUtils.formatBalance(debt.getTotal()));
+                replacements.put("%remaining_debt%", MiscUtils.formatBalance(debt.getRemaining()));
+                replacements.put("%every_payment%", MiscUtils.formatBalance(debt.getDaily()));
                 if (debt.getLastPaymentDate() != null) {
                     replacements.put("%last_payment_date%", debt.getLastPaymentDate());
                     replacements.put("%time_to_next_deduction%", DebtModule.getTimeUntilNextPayment(debt.getUsername()));

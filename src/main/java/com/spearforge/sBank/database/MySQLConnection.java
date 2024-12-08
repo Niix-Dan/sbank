@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class MySQLConnection extends DatabaseConnection{
@@ -150,28 +152,7 @@ public class MySQLConnection extends DatabaseConnection{
         stmt.executeUpdate();
         stmt.close();
     }
-    @Override
-    public Debt getDebt(String username){
-        Debt debt = new Debt();
-        String sql = "SELECT * FROM debts WHERE username = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, username);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    debt.setUsername(rs.getString("username"));
-                    debt.setUuid(rs.getString("uuid"));
-                    debt.setTotal(rs.getDouble("total"));
-                    debt.setRemaining(rs.getDouble("remaining"));
-                    debt.setDaily(rs.getDouble("daily"));
-                    debt.setLastPaymentDate(rs.getString("last_payment_date"));
-                    return debt;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
     @Override
     public void setDebtToDatabase(Debt debt) throws SQLException {
         String query = "INSERT INTO debts (username, uuid, total, remaining, daily, last_payment_date) VALUES (?, ?, ?, ?, ?, ?)";
@@ -205,6 +186,4 @@ public class MySQLConnection extends DatabaseConnection{
         stmt.executeUpdate();
         stmt.close();
     }
-
-
 }

@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class SQLiteConnection extends DatabaseConnection {
@@ -139,7 +141,7 @@ public class SQLiteConnection extends DatabaseConnection {
                     double interest = MiscUtils.getInterest(player, _interest);
                     double interestAmount = balance * (interest / 100);
                     SBank.getBanks().get(player.getName()).setBalance(balance + interestAmount);
-                    TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("interest.interest-message").replaceAll("%interest%", String.valueOf(MiscUtils.formatBalance(interestAmount))));
+                    TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("interest.interest-message").replaceAll("%interest%", MiscUtils.formatBalance(interestAmount)));
                 }
             }
         }
@@ -168,29 +170,6 @@ public class SQLiteConnection extends DatabaseConnection {
             stmt.setString(3, bank.getUsername());
             stmt.executeUpdate();
         }
-    }
-
-    @Override
-    public Debt getDebt(String username) {
-        Debt debt = new Debt();
-        String sql = "SELECT * FROM debts WHERE username = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, username);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    debt.setUsername(rs.getString("username"));
-                    debt.setUuid(rs.getString("uuid"));
-                    debt.setTotal(rs.getDouble("total"));
-                    debt.setRemaining(rs.getDouble("remaining"));
-                    debt.setDaily(rs.getDouble("daily"));
-                    debt.setLastPaymentDate(rs.getString("last_payment_date"));
-                    return debt;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override

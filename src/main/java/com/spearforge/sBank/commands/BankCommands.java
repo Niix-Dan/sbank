@@ -1,10 +1,13 @@
 package com.spearforge.sBank.commands;
 
 import com.spearforge.sBank.SBank;
+import com.spearforge.sBank.guis.AdminGUI;
 import com.spearforge.sBank.guis.BankGUI;
 import com.spearforge.sBank.guis.DebtGui;
+import com.spearforge.sBank.model.Bank;
 import com.spearforge.sBank.utils.TextUtils;
 import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -51,7 +54,18 @@ public class BankCommands implements CommandExecutor {
                                 TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("messages.no-permission"));
                             }
                         }
-                    }
+                    } else if (Bukkit.getOfflinePlayer(args[0]) != null){ // check if player has a bank
+                            if (player.hasPermission("sbank.admin")) {
+                                Bank pBank = SBank.getDb().getBank(args[0]);
+                                if (pBank != null){
+                                    player.openInventory(AdminGUI.openPlayerBankGUI(pBank));
+                                } else {
+                                    TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("messages.player-not-found"));
+                                }
+                            } else {
+                                TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("messages.no-permission"));
+                            }
+                        }
                 }
             } else {
                 TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("messages.no-permission"));

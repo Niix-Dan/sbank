@@ -5,6 +5,7 @@ import com.spearforge.sBank.model.Debt;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public abstract class DatabaseConnection {
 
@@ -27,8 +28,6 @@ public abstract class DatabaseConnection {
     public abstract void setBankInDatabase(Bank bank) throws SQLException;
 
     public abstract void updateBankInDatabase(Bank bank) throws SQLException;
-
-    public abstract Debt getDebt(String username) throws SQLException;
 
     public abstract void setDebtToDatabase(Debt debt) throws SQLException;
 

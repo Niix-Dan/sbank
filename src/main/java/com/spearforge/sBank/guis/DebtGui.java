@@ -2,10 +2,10 @@ package com.spearforge.sBank.guis;
 
 import com.spearforge.sBank.SBank;
 import com.spearforge.sBank.model.Debt;
+import com.spearforge.sBank.utils.MiscUtils;
 import com.spearforge.sBank.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +45,7 @@ public class DebtGui {
     }
 
     public static ItemStack createButton(String configPath, Debt pDebt) {
-        ItemStack button = new ItemStack(Material.valueOf(SBank.getGuiConfig().getString(configPath + ".material")));
+        ItemStack button = MiscUtils.getMaterialOrHead(configPath);
         ItemMeta meta = button.getItemMeta();
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString(configPath + ".name")));
         List<String> detailsLore = SBank.getGuiConfig().getStringList(configPath + ".lore");

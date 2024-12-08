@@ -15,7 +15,7 @@ gui:
   loan:
     loan-gui:
       name: "&7Loan Page"
-      material: "BOOK_AND_QUILL"
+      material: "LEGACY_BOOK_AND_QUILL"
       lore:
           - "&7Click to open the loan page"
     # This is for the player which has already a debt(loan)
@@ -29,6 +29,14 @@ gui:
           - "&eInterest Rate: &f%interest_rate%"
           - "&eTime to next deduction: &f%time_to_next_deduction%"
           - "&c&oMoney should be in your bank account!"
+    admin-details:
+      name: "&7Debt Details"
+      material: "BOOK"
+      lore:
+          - "&eTotal Debt: &f%total_debt%"
+          - "&eRemaining: &f%remaining_debt%"
+          - "&eDaily Payment: &f%every_payment%"
+          - "&eTime to next deduction: &f%time_to_next_deduction%"
     pay:
       name: "&7Pay Debt"
       material: "EMERALD"
@@ -48,7 +56,7 @@ gui:
         - "&7get your new loan!"
     agreement:
       name: "&7Agreement"
-      material: "BOOK_AND_QUILL"
+      material: "LEGACY_BOOK_AND_QUILL"
       lore:
           - "&7Total Debt: &f%total_debt%"
           - "&7Payment: &f%every_payment%"
@@ -72,6 +80,13 @@ gui:
     lore:
       - "&eBalance: &f%balance%"
       - "&eInterest Rate: &f%interest_rate%"
+      - "&eBank Name: &f%bank_name%"
+      - "&eTime to next interest: &f%time_to_next_interest%"
+  admin-bank-details:
+    name: "&7Account Details"
+    material: "BOOK"
+    lore:
+      - "&eBalance: &f%balance%"
       - "&eBank Name: &f%bank_name%"
       - "&eTime to next interest: &f%time_to_next_interest%"
   bank-set-name:

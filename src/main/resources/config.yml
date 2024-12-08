@@ -4,7 +4,7 @@
 # If you are using sqlite you don't need to do anything here, just use it.
 database:
   type: sqlite # mysql or sqlite
-  host: host_ip # no need for these 5 lines if you are using sqlite
+  host: host_ip
   port: 3306
   name: sbank
   username: database_username
@@ -16,6 +16,8 @@ default-bank-name: "My Bank"
 bank-name-length: 12
 # Start money when they create a bank account
 start-money: 0
+# You can change this to any currency you want like "€" or "₺" etc. Currency will show up in GUIs and messages. Ex. 100$ or 100€
+currency-symbol: "$"
 
 # If you want to player lose their money after death with percentage you can set this to true
 # Even its true they will not lose money if they have permission "sbank.dontlosemoney"
@@ -32,6 +34,9 @@ after-death-message: "&6Wow you just lost &c%money%$ &6because of death. You sho
 messages:
   prefix: "&6[&cSBank&6] &r"
   no-permission: "&cYou don't have permission to do this."
+  invalid-argument: "&cInvalid argument. Please use &6/sbank help &cfor more information."
+  player-not-found: "&cPlayer not found."
+  no-debt-found: "&cCan't found any debt"
   plugin-reloaded: "&6Plugin has been reloaded successfully."
   no-bank-account: "&cYou don't have a bank account yet. You can create one by rejoining the server."
   setting-bank-name: "&6Bank name can only contain letters and numbers. No special characters allowed, and it must be at most &c12 characters long &6(including spaces). Please enter a new bank name."
@@ -95,7 +100,7 @@ interest:
   default-interest-rate: 10 # In percentage. If the player is online and the interest setting is enabled, they will receive this default percentage of their money at every interest-time, unless they have a sbank.interest.<percent> permission set.
   interest-time: 12 # In hours interest will be calculated every 12 hours
   last-interest-date: "2024-10-07 20:49:00" # Last interest info, DO NOT TOUCH, this will be change automatically
-  interest-message: "&6You got %interest%$ interest to your bank account."
+  interest-message: "&6You got %interest% interest to your bank account."
 
 npc-bankers:
   enabled: false

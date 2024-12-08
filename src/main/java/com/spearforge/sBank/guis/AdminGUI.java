@@ -7,36 +7,35 @@ import com.spearforge.sBank.utils.MiscUtils;
 import com.spearforge.sBank.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.Material;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 
-public class BankGUI {
+public class AdminGUI {
 
+    public static Inventory openPlayerBankGUI(Bank bank) {
+        Inventory inv = Bukkit.createInventory(null, InventoryType.WORKBENCH, bank.getUsername());
 
-    public static Inventory getBankHomePage(Player player){
-        Bank pBank = SBank.getBanks().get(player.getName());
-        Inventory bankGUI = Bukkit.createInventory(player, 27, ChatColor.translateAlternateColorCodes('&', SBank.getPlugin().getConfig().getString("gui.bank-home-title")));
-
-        if (pBank != null){
-            bankGUI.setItem(11, createButton("gui.deposit-button", pBank, null));
-            bankGUI.setItem(15, createButton("gui.withdraw-button", pBank, null));
-            bankGUI.setItem(8, createButton("gui.bank-set-name", pBank, null));
-            bankGUI.setItem(13, createButton("gui.bank-details", pBank, null));
-            if (SBank.getPlugin().getConfig().getBoolean("loan.enabled")){
-                bankGUI.setItem(0, createButton("gui.loan.loan-gui", pBank, null));
-            }
-            bankGUI.setItem(26, createButton("gui.close-button", pBank, null));
-
+        inv.setItem(5, createButton("gui.admin-bank-details", bank, null));
+        Debt debt = SBank.getDebts().get(bank.getUsername());
+        if (debt != null) {
+            inv.setItem(0, createButton("gui.loan.admin-details", null, debt));
         } else {
-            player.sendMessage(SBank.getPlugin().getConfig().getString("messages.no-bank-account"));
+            ItemStack button = new ItemStack(Material.valueOf(SBank.getGuiConfig().getString("gui.loan.admin-details.material")));
+            ItemMeta meta = button.getItemMeta();
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString("gui.loan.admin-details.name")));
+            meta.setLore(Arrays.asList(ChatColor.translateAlternateColorCodes('&', SBank.getPlugin().getConfig().getString("messages.no-debt-found"))));
+            button.setItemMeta(meta);
+            inv.setItem(0, button);
         }
-        return bankGUI;
-    }
 
+        return inv;
+    }
 
     public static ItemStack createButton(String configPath, @Nullable Bank pBank, @Nullable Debt pDebt) {
         ItemStack button = MiscUtils.getMaterialOrHead(configPath);
@@ -53,7 +52,5 @@ public class BankGUI {
         button.setItemMeta(meta);
         return button;
     }
-
-
 
 }
