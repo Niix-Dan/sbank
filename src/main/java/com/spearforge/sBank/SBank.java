@@ -211,9 +211,9 @@ public final class SBank extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DebtGuiListener(), this);
         
 
-        
+
         if(getServer().getPluginManager().isPluginEnabled("Citizens")) {
-            getLogger().info("Citizens found, initializing NPC support...")
+            getLogger().info("Citizens found, initializing NPC support...");
             getServer().getPluginManager().registerEvents(new NPCClickEvent(), this);
         }
     }
