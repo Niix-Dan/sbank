@@ -135,7 +135,7 @@ public final class SBank extends JavaPlugin {
                     Bukkit.getConsoleSender().sendMessage(msg);
                 }
             }
-        }.runTaskTimer(this, 0L, getConfig().getFloat("auto-save.save-interval", 15.0f) * 1200L);
+        }.runTaskTimer(this, 0L, getConfig().getLong("auto-save.save-interval", 15L) * 1200L);
     }
 
     public void startDebtCheckScheduler() {
