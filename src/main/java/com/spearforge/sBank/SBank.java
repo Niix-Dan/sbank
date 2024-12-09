@@ -209,7 +209,13 @@ public final class SBank extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerLoanChatListener(), this);
         getServer().getPluginManager().registerEvents(new LoanGuiListener(), this);
         getServer().getPluginManager().registerEvents(new DebtGuiListener(), this);
-        getServer().getPluginManager().registerEvents(new NPCClickEvent(), this);
+        
+
+        
+        if(getServer().getPluginManager().isPluginEnabled("Citizens")) {
+            getLogger().info("Citizens found, initializing NPC support...")
+            getServer().getPluginManager().registerEvents(new NPCClickEvent(), this);
+        }
     }
 
     public void saveAllBanks(){
