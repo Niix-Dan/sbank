@@ -14,6 +14,11 @@
 - **GUI Integration:** Enjoy a user-friendly graphical interface for hassle-free management of bank accounts and loans.
 - **Configurable Settings:** All features, including loans, interest rates, and the death penalty, can be easily enabled or disabled through the configuration settings. Plus, everything within the plugin is fully customizable via the config file.
 - **Database Support:** Enjoy flexibility with support for both **MySQL** and **SQLite**, allowing players to choose their preferred database system for safely storing financial data.
+- **Admin GUI:** A dedicated interface for administrators! Use the /sbank <player-name> command to easily view players' bank and debt information.
+- **Citizens Support:** Seamless integration with the Citizens plugin! Add Banker NPCs with customizable settings, including VIP-specific permissions for enhanced functionality.
+- **Permission-Based Interest System:** Fine-tune interest rates with permission nodes! For example, granting sbank.interest.100 will boost the interest rate to 100%.
+- **Custom Head Support:** Enhance all menus with personalized custom head designs for a more immersive experience.
+- **Physical Money:** Withdraw your bank balance as tangible items! Trade, store, or deposit back with a simple right-click. Fully customizable and easy to use!
 
 ---
 
@@ -22,6 +27,7 @@
 - `/sbank` - Main command of sBank GUI which you can manage all things.
 - `/sbank debt` - Check your current debt status.
 - `/sbank reload` - Reload the plugin configuration.
+- `/sbank <player-name>` - Check player's debt and bank account.
 
 ---
 
