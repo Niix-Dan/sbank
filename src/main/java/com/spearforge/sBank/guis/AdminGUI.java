@@ -43,10 +43,10 @@ public class AdminGUI {
 
         if (pBank != null) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString(configPath + ".name")));
-            meta.setLore(TextUtils.replacePlaceholders(SBank.getGuiConfig().getStringList(configPath + ".lore"), pBank, null));
+            meta.setLore(TextUtils.replacePlaceholders(SBank.getGuiConfig().getStringList(configPath + ".lore"), pBank, null, null));
         } else {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString(configPath + ".name")));
-            meta.setLore(TextUtils.replacePlaceholders(SBank.getGuiConfig().getStringList(configPath + ".lore"), null, pDebt));
+            meta.setLore(TextUtils.replacePlaceholders(SBank.getGuiConfig().getStringList(configPath + ".lore"), null, pDebt, null));
         }
 
         button.setItemMeta(meta);

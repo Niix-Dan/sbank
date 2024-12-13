@@ -209,6 +209,7 @@ public final class SBank extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerLoanChatListener(), this);
         getServer().getPluginManager().registerEvents(new LoanGuiListener(), this);
         getServer().getPluginManager().registerEvents(new DebtGuiListener(), this);
+        getServer().getPluginManager().registerEvents(new MoneyPileListener(), this);
         
 
 

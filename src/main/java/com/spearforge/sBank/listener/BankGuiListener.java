@@ -22,6 +22,8 @@ public class BankGuiListener implements Listener {
     private static HashMap<String, Boolean> customDepAmount = new HashMap<>();
     @Getter
     private static HashMap<String, Boolean> customWithAmount = new HashMap<>();
+    @Getter
+    private static HashMap<String, Boolean> customPhysicalWithAmount = new HashMap<>();
 
     private final String homeTitle = ChatColor.translateAlternateColorCodes('&', SBank.getPlugin().getConfig().getString("gui.bank-home-title"));
 
@@ -36,6 +38,7 @@ public class BankGuiListener implements Listener {
             List<String> homeButtons = Arrays.asList(
                     ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString("gui.deposit-button.name")),
                     ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString("gui.withdraw-button.name")),
+                    ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString("gui.physical-withdraw-button.name")),
                     ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString("gui.bank-set-name.name")),
                     ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString("gui.bank-details.name")),
                     ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString("gui.loan.loan-gui.name")),
@@ -55,12 +58,16 @@ public class BankGuiListener implements Listener {
                         TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("messages.enter-amount"));
                     } else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(homeButtons.get(2))){
                         player.closeInventory();
+                        customPhysicalWithAmount.put(player.getName(), true);
+                        TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("messages.enter-amount"));
+                    }else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(homeButtons.get(3))){
+                        player.closeInventory();
                         TextUtils.sendMessageWithPrefix(player, SBank.getPlugin().getConfig().getString("messages.setting-bank-name"));
                         setName.put(player.getName(), true);
-                    } else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(homeButtons.get(4))){
+                    } else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(homeButtons.get(5))){
                         player.closeInventory();
                         player.openInventory(DebtGui.openDebtPage(player));
-                    } else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(homeButtons.get(5))){
+                    } else if(e.getCurrentItem().getItemMeta().getDisplayName().equals(homeButtons.get(6))){
                         player.closeInventory();
                     }
                 }

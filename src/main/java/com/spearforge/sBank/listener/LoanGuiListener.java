@@ -98,7 +98,7 @@ public class LoanGuiListener implements Listener {
         debt.setLastPaymentDate(dateFormatted);
 
         SBank.getDebts().put(player.getName(), debt);
-        List<String> messages = TextUtils.replacePlaceholders(SBank.getPlugin().getConfig().getStringList("messages.loan-agree"), null, debt);
+        List<String> messages = TextUtils.replacePlaceholders(SBank.getPlugin().getConfig().getStringList("messages.loan-agree"), null, debt, null);
 
         for (String message : messages) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));

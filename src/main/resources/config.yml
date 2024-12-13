@@ -51,6 +51,10 @@ messages:
   not-enough-money: "&cYou don't have enough money to complete this action."
   deposit-success: "&6You've successfully deposited &c%money%$&6 into your bank account."
   withdraw-success: "&6You've successfully withdrawn &c%money%$&6 from your bank account."
+  physical-withdraw-success: "&6You've successfully withdrawn &c%money%&6 from your bank account as pile of money to your inventory."
+  inventory-full: "&cYour inventory is full. Please make some space and try again."
+  invalid-money-pile: "&cThis is not a valid money pile."
+  money-pile-redeemed: "&6You've successfully redeemed &c%money_pile%&6 from the money pile."
   enter-amount: "&6Please enter the amount you wish to proceed with."
   custom-amount-not-set: "&cThe session has been canceled."
   bank-name-not-set: "&cYou exited the bank name setting session."
@@ -77,6 +81,16 @@ messages:
     - "&6We hope you make timely payments. Good luck!"
     - "&cImportant Note: &6Money should be in your bank account to pay your debt when time comes."
 
+physical-money:
+  enabled: true
+  item:
+    material: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc2YmM2ODU0N2M3NmJhNDYyNTA4NTAyOTgwNDY0N2I4MmY4MTY3MDVjOGJiNjFlMzdkMTQ4NWE3NWM3MmM1ZiJ9fX0="
+    name: "&6Money Pile"
+    lore:
+    - "&7Money: &c%money_pile%"
+    - "&7Right click to deposit"
+    - "&7your money to bank account."
+
 gui:
   bank-home-title: "&6Bank Account"
   deposit-page-title: "&6Deposit Money"
@@ -100,7 +114,7 @@ loan:
   debt-time: 12 # In hours debt will be deducted every 12 hours
 
 # Interest Settings
-# Interest Permission: sbank.interest
+# Interest Permission: sbank.interest # Player must have this permission to get interest
 # Custom Interest Permission: sbank.interest.<percent>
 interest:
   enabled: true # If you turn this false or true you need to restart the server to apply changes. Also change gui.yml to remove interest information for good user experience.

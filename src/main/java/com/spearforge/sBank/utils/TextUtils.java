@@ -3,6 +3,7 @@ package com.spearforge.sBank.utils;
 import com.spearforge.sBank.SBank;
 import com.spearforge.sBank.model.Bank;
 import com.spearforge.sBank.model.Debt;
+import com.spearforge.sBank.model.MoneyPile;
 import com.spearforge.sBank.modules.DebtModule;
 import com.spearforge.sBank.modules.InterestModule;
 import org.bukkit.Bukkit;
@@ -36,8 +37,9 @@ public class TextUtils {
         return ChatColor.translateAlternateColorCodes('&', line);
     }
 
-    public static List<String> replacePlaceholders(List<String> lore, @Nullable Bank bank, @Nullable Debt debt){
+    public static List<String> replacePlaceholders(List<String> lore, @Nullable Bank bank, @Nullable Debt debt, @Nullable MoneyPile moneyPile){
         String interest = "";
+        String currencySymbol = SBank.getPlugin().getConfig().getString("currency-symbol");
         if (SBank.getPlugin().getConfig().getBoolean("interest.enabled")){
             double _interest = SBank.getPlugin().getConfig().getInt("interest.default-interest-rate", 
                                                            SBank.getPlugin().getConfig().getInt("interest.interest-rate"));
@@ -51,25 +53,29 @@ public class TextUtils {
         Map<String, String> replacements = new HashMap<>();
         replacements.put("%min_loan%", MiscUtils.formatBalance(SBank.getPlugin().getConfig().getInt("loan.min-loan")));
         replacements.put("%max_loan%", MiscUtils.formatBalance(SBank.getPlugin().getConfig().getInt("loan.max-loan")));
-        replacements.put("%interest_rate%", String.valueOf(SBank.getPlugin().getConfig().getInt("loan.loan-interest")) + "%");
+        replacements.put("%interest_rate%", SBank.getPlugin().getConfig().getInt("loan.loan-interest") + "%");
         replacements.put("%term%", String.valueOf(SBank.getPlugin().getConfig().getInt("loan.loan-term")));
         replacements.put("%payment_interval%", String.valueOf(SBank.getPlugin().getConfig().getInt("loan.debt-time")));
 
-            if (bank!= null) {
-                replacements.put("%balance%", String.valueOf(MiscUtils.formatBalance(bank.getBalance())));
-                replacements.put("%interest_rate%", interest);
-                replacements.put("%bank_name%", bank.getBankname());
-                replacements.put("%time_to_next_interest%", InterestModule.getTimeUntilNextInterest());
-            } else if (debt != null){
-                replacements.put("%total_debt%", MiscUtils.formatBalance(debt.getTotal()));
-                replacements.put("%remaining_debt%", MiscUtils.formatBalance(debt.getRemaining()));
-                replacements.put("%every_payment%", MiscUtils.formatBalance(debt.getDaily()));
-                if (debt.getLastPaymentDate() != null) {
-                    replacements.put("%last_payment_date%", debt.getLastPaymentDate());
-                    replacements.put("%time_to_next_deduction%", DebtModule.getTimeUntilNextPayment(debt.getUsername()));
-                }
-                replacements.put("%payment_interval%", String.valueOf(SBank.getPlugin().getConfig().getInt("loan.debt-time")));
+        if (moneyPile != null){
+            replacements.put("%money_pile%", MiscUtils.formatBalance(moneyPile.getAmount()) + currencySymbol);
+        }
+
+        if (bank!= null) {
+            replacements.put("%balance%", MiscUtils.formatBalance(bank.getBalance()) + currencySymbol);
+            replacements.put("%interest_rate%", interest);
+            replacements.put("%bank_name%", bank.getBankname());
+            replacements.put("%time_to_next_interest%", InterestModule.getTimeUntilNextInterest());
+        } else if (debt != null){
+            replacements.put("%total_debt%", MiscUtils.formatBalance(debt.getTotal()) + currencySymbol);
+            replacements.put("%remaining_debt%", MiscUtils.formatBalance(debt.getRemaining()) + currencySymbol);
+            replacements.put("%every_payment%", MiscUtils.formatBalance(debt.getDaily()) + currencySymbol);
+            if (debt.getLastPaymentDate() != null) {
+                replacements.put("%last_payment_date%", debt.getLastPaymentDate());
+                replacements.put("%time_to_next_deduction%", DebtModule.getTimeUntilNextPayment(debt.getUsername()));
             }
+            replacements.put("%payment_interval%", String.valueOf(SBank.getPlugin().getConfig().getInt("loan.debt-time")));
+        }
 
         return TextUtils.formatLore(lore, replacements);
     }

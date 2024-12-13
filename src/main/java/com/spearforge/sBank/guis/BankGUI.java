@@ -24,6 +24,9 @@ public class BankGUI {
         if (pBank != null){
             bankGUI.setItem(11, createButton("gui.deposit-button", pBank, null));
             bankGUI.setItem(15, createButton("gui.withdraw-button", pBank, null));
+            if(SBank.getPlugin().getConfig().getBoolean("physical-money.enabled")){
+                bankGUI.setItem(16, createButton("gui.physical-withdraw-button", pBank, null));
+            }
             bankGUI.setItem(8, createButton("gui.bank-set-name", pBank, null));
             bankGUI.setItem(13, createButton("gui.bank-details", pBank, null));
             if (SBank.getPlugin().getConfig().getBoolean("loan.enabled")){
@@ -44,10 +47,10 @@ public class BankGUI {
 
         if (pBank != null) {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString(configPath + ".name")));
-            meta.setLore(TextUtils.replacePlaceholders(SBank.getGuiConfig().getStringList(configPath + ".lore"), pBank, null));
+            meta.setLore(TextUtils.replacePlaceholders(SBank.getGuiConfig().getStringList(configPath + ".lore"), pBank, null, null));
         } else {
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SBank.getGuiConfig().getString(configPath + ".name")));
-            meta.setLore(TextUtils.replacePlaceholders(SBank.getGuiConfig().getStringList(configPath + ".lore"), null, pDebt));
+            meta.setLore(TextUtils.replacePlaceholders(SBank.getGuiConfig().getStringList(configPath + ".lore"), null, pDebt, null));
         }
 
         button.setItemMeta(meta);

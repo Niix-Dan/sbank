@@ -51,9 +51,9 @@ public class DebtGui {
         List<String> detailsLore = SBank.getGuiConfig().getStringList(configPath + ".lore");
 
         if (pDebt != null){
-            meta.setLore(TextUtils.replacePlaceholders(detailsLore, null, pDebt));
+            meta.setLore(TextUtils.replacePlaceholders(detailsLore, null, pDebt, null));
         } else {
-            meta.setLore(TextUtils.replacePlaceholders(detailsLore, null, null));
+            meta.setLore(TextUtils.replacePlaceholders(detailsLore, null, null, null));
         }
 
         button.setItemMeta(meta);

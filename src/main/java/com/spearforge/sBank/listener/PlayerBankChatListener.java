@@ -5,10 +5,13 @@ import com.spearforge.sBank.model.Bank;
 import com.spearforge.sBank.modules.DebtModule;
 import com.spearforge.sBank.utils.MiscUtils;
 import com.spearforge.sBank.utils.TextUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,6 +35,9 @@ public class PlayerBankChatListener implements Listener {
             if (BankGuiListener.getSetName().containsKey(playerName)) {
                 handleSetBankName(e, message);
             }
+            else if(BankGuiListener.getCustomPhysicalWithAmount().containsKey(playerName)) {
+                handlePhysicalWithdraw(e, message);
+            }
             else if (BankGuiListener.getCustomDepAmount().containsKey(playerName)) {
                 handleDeposit(e, balance, message);
             }
@@ -51,12 +57,14 @@ public class PlayerBankChatListener implements Listener {
         return BankGuiListener.getCustomDepAmount().containsKey(playerName) ||
                 BankGuiListener.getCustomWithAmount().containsKey(playerName) ||
                 DebtGuiListener.getDebtPayment().containsKey(playerName) ||
+                BankGuiListener.getCustomPhysicalWithAmount().containsKey(playerName) ||
                 BankGuiListener.getSetName().containsKey(playerName);
     }
 
     private void cancelTransaction(String playerName) {
         BankGuiListener.getCustomDepAmount().remove(playerName);
         BankGuiListener.getCustomWithAmount().remove(playerName);
+        BankGuiListener.getCustomPhysicalWithAmount().remove(playerName);
         DebtGuiListener.getDebtPayment().remove(playerName);
         BankGuiListener.getSetName().remove(playerName);
     }
@@ -131,6 +139,33 @@ public class PlayerBankChatListener implements Listener {
                         .replaceAll("%money%", MiscUtils.formatBalance(amount)));
             } else {
                 BankGuiListener.getCustomWithAmount().remove(playerName);
+                TextUtils.sendMessageWithPrefix(e.getPlayer(), SBank.getPlugin().getConfig().getString("messages.not-enough-money"));
+            }
+        } else {
+            TextUtils.sendMessageWithPrefix(e.getPlayer(), SBank.getPlugin().getConfig().getString("messages.invalid-amount"));
+        }
+    }
+
+
+    private void handlePhysicalWithdraw(AsyncPlayerChatEvent e, String message) {
+        String playerName = e.getPlayer().getName();
+        Bank bank = SBank.getBanks().get(playerName);
+
+        if (MiscUtils.isNumeric(message)) {
+            double amount = Double.parseDouble(message);
+            if (bank.getBalance() >= amount) {
+                if (e.getPlayer().getInventory().firstEmpty() != -1) {
+                    e.getPlayer().getInventory().addItem(MiscUtils.getPhysicalMoney(e.getPlayer(), amount));
+                    bank.setBalance(bank.getBalance() - amount);
+                    BankGuiListener.getCustomPhysicalWithAmount().remove(playerName);
+                    TextUtils.sendMessageWithPrefix(e.getPlayer(), SBank.getPlugin().getConfig().getString("messages.physical-withdraw-success")
+                            .replaceAll("%money%", MiscUtils.formatBalance(amount)));
+                } else {
+                    TextUtils.sendMessageWithPrefix(e.getPlayer(), SBank.getPlugin().getConfig().getString("messages.inventory-full"));
+                    BankGuiListener.getCustomPhysicalWithAmount().remove(playerName);
+                }
+            } else {
+                BankGuiListener.getCustomPhysicalWithAmount().remove(playerName);
                 TextUtils.sendMessageWithPrefix(e.getPlayer(), SBank.getPlugin().getConfig().getString("messages.not-enough-money"));
             }
         } else {

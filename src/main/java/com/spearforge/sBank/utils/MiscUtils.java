@@ -3,15 +3,19 @@ package com.spearforge.sBank.utils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.spearforge.sBank.SBank;
+import com.spearforge.sBank.model.MoneyPile;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +42,7 @@ public class MiscUtils {
 
         DecimalFormat df = new DecimalFormat("#,##0.00", symbols);
 
-        return df.format(balance) + SBank.getPlugin().getConfig().getString("currency-symbol");
+        return df.format(balance);
     }
 
 
@@ -95,5 +99,52 @@ public class MiscUtils {
             return getCustomHead(SBank.getGuiConfig().getString(configPath + ".material"));
         }
     }
+
+    public static ItemStack getPhysicalMoney(Player player, double amount) {
+        ItemStack physicalMoney;
+        String materialName = SBank.getPlugin().getConfig().getString("physical-money.item.material");
+
+        try {
+            Material material = Material.valueOf(materialName);
+            physicalMoney = new ItemStack(material);
+        } catch (IllegalArgumentException e) {
+            physicalMoney = getCustomHead(materialName);
+        }
+
+        MoneyPile moneyPile = new MoneyPile(amount, player.getName());
+
+        ItemMeta meta = physicalMoney.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', SBank.getPlugin().getConfig().getString("physical-money.item.name")));
+            meta.setLore(TextUtils.replacePlaceholders(SBank.getPlugin().getConfig().getStringList("physical-money.item.lore"), null, null, moneyPile));
+            physicalMoney.setItemMeta(meta);
+        }
+
+        return physicalMoney;
+    }
+
+    public static double extractMoney(List<String> lore) {
+        Pattern pattern = Pattern.compile("\\d{1,3}(?:\\.\\d{3})*(?:,\\d+)?\\$");
+
+        for (String line : lore) {
+
+            Matcher matcher = pattern.matcher(line);
+            if (matcher.find()) {
+                String rawNumber = matcher.group();
+
+                try {
+                    String processedNumber = rawNumber.replace(".", "").replace(",", ".").replace("$", "");
+
+                    double amount = Double.parseDouble(processedNumber);
+                    return amount;
+                } catch (NumberFormatException e) {
+                    return -100.0;
+                }
+            }
+        }
+
+        return -100.0;
+    }
+
 
 }

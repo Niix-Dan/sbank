@@ -11,6 +11,14 @@ gui:
     lore:
       - "&7Click to withdraw money"
       - "&7from your bank account"
+  physical-withdraw-button:
+    name: "&ePhysical Withdraw"
+    material: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc2YmM2ODU0N2M3NmJhNDYyNTA4NTAyOTgwNDY0N2I4MmY4MTY3MDVjOGJiNjFlMzdkMTQ4NWE3NWM3MmM1ZiJ9fX0="
+    lore:
+      - "&7Click to withdraw money"
+      - "&7from your bank account"
+      - "&7as physical money to"
+      - "&7your inventory"
   # LOAN GUI SETTINGS
   loan:
     loan-gui:
